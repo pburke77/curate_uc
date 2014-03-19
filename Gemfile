@@ -58,3 +58,5 @@ group :development, :test do
 end
 
 gem "jettywrapper", group: [:development, :test]
+group :development, :test do
+end
