@@ -13,6 +13,7 @@ class Collection < ActiveFedora::Base
 
   makes_derivatives :generate_derivatives
 
+  after_initialize :set_defaults
   before_save :add_profile_image, :only => [ :create, :update ]
 
   def can_be_member_of_collection?(collection)
@@ -44,6 +45,10 @@ class Collection < ActiveFedora::Base
   end
 
   private
+
+  def set_defaults
+    self.visibility ||= Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+  end
 
   def generate_derivatives
     case mime_type

@@ -12,6 +12,8 @@ class GenericWork < ActiveFedora::Base
 
   include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
+  after_initialize :set_defaults
+
   attribute :title, datastream: :descMetadata,
     multiple: false,
     validates: {presence: { message: 'Your work must have a title.' }}
@@ -41,4 +43,9 @@ class GenericWork < ActiveFedora::Base
   attribute :files, multiple: true, form: {as: :file},
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
 
+  private
+
+  def set_defaults
+    self.visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC 
+  end
 end
